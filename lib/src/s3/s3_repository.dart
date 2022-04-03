@@ -11,7 +11,7 @@ import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
 import 'package:xml/xml.dart';
 
-import '../authorize/authorize_model_rsp_policy.dart';
+import '../authorize/authorize_model_policy_rsp.dart';
 import 's3_model_error.dart';
 import 's3_model_list.dart';
 
@@ -92,7 +92,7 @@ class S3Repository {
   Future<void> writeObject(
       {required String bucket,
       required String key,
-      required AuthorizeModelRspPolicy policy,
+      required AuthorizeModelPolicyRsp policy,
       required List<int> object,
       void Function(String?)? onSuccess,
       void Function(Object)? onError}) async {

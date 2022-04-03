@@ -3,6 +3,7 @@
  * MIT license. See LICENSE file in root directory.
  */
 
+import 'package:collection/collection.dart';
 import 'package:xml/xml.dart';
 
 import 's3_model_list_ver.dart';
@@ -66,7 +67,7 @@ class S3ModelList {
           isTruncated == other.isTruncated &&
           nextKeyMarker == other.nextKeyMarker &&
           nextVersionIdMarker == other.nextVersionIdMarker &&
-          versions == other.versions;
+          ListEquality().equals(versions, other.versions);
 
   @override
   int get hashCode =>

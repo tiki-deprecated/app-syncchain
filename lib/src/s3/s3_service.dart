@@ -6,7 +6,7 @@
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
 
-import '../authorize/authorize_model_rsp_policy.dart';
+import '../authorize/authorize_model_policy_rsp.dart';
 import 's3_model_list.dart';
 import 's3_model_list_ver.dart';
 import 's3_model_ver.dart';
@@ -41,7 +41,7 @@ class S3Service {
 
   Future<void> write(
           {required String key,
-          required AuthorizeModelRspPolicy policy,
+          required AuthorizeModelPolicyRsp policy,
           required List<int> object,
           void Function(S3ModelVer)? onSuccess,
           void Function(Object)? onError}) =>
