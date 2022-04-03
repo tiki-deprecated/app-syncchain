@@ -14,11 +14,13 @@ dependencies:
     sdk: flutter
   logging: ^1.0.1
   sqflite_sqlcipher: ^2.1.0
+  collection: ^1.15.0
+  xml: ^5.3.1
+  uuid: 3.0.5
   httpp:
     git:
       url: https://github.com/tiki/httpp
       ref: 0.0.3
-  xml: ^5.3.1
 
 dependency_overrides:
   sqflite:
