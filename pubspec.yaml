@@ -21,6 +21,10 @@ dependencies:
     git:
       url: https://github.com/tiki/httpp
       ref: 0.0.3
+  tiki_kv:
+    git:
+      url: https://github.com/tiki/tiki_kv
+      ref: 0.1.0
 
 dependency_overrides:
   sqflite:
