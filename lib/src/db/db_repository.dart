@@ -35,7 +35,7 @@ class DBRepository {
 
   Future<DBModel?> get(Uint8List hash, {Transaction? txn}) async {
     List<Map<String, Object?>> rows = await (txn ?? _database).query(_table,
-        columns: ['hash', 'version_id', 'previous_hash'],
+        columns: ['hash', 'version_id', 'synced_epoch'],
         where: 'hash = ?',
         whereArgs: [hash]);
     if (rows.isEmpty) {

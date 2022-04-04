@@ -1,4 +1,4 @@
-name: syncchain
+name: sync_chain
 description: TIKI's local chain backup/sync (aka sync chain)
 version: 0.0.1
 homepage: https://mytiki.com
@@ -36,7 +36,3 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-flutter:
-  #assets:
-    #- packages/syncchain/src/db/sql/db_sql_create.sql
