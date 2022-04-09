@@ -14,8 +14,8 @@ import 'authorize_model_rsp.dart';
 class AuthorizeRepository {
   final Logger _log = Logger('AuthorizeRepository');
 
-  //static const String _path ='https://bouncer.mytiki.com/api/latest/sync-chain';
-  static const String _path = 'http://127.0.0.1:10227/api/latest/sync-chain';
+  static const String _path =
+      'https://bouncer.mytiki.com/api/latest/sync-chain';
   static const String _pathRegister = _path + '/register';
   static const String _pathPolicy = _path + '/policy';
 
