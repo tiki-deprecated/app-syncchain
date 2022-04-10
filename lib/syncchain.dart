@@ -16,9 +16,9 @@ import 'src/db/db_model.dart';
 import 'src/db/db_service.dart';
 import 'src/s3/s3_model_list_ver.dart';
 import 'src/s3/s3_service.dart';
-import 'sync_chain_block.dart';
+import 'syncchain_block.dart';
 
-export 'sync_chain_block.dart';
+export 'syncchain_block.dart';
 
 class SyncChain {
   static const String _isRegistered = 'SyncChain.isRegistered';
@@ -28,6 +28,7 @@ class SyncChain {
   late final DBService _dbService;
   final Database _database;
   final S3Service _s3service;
+  final Future<Uint8List> Function(Uint8List message) _sign;
 
   AuthorizeModelPolicyRsp? _policy;
   String? _address;
@@ -41,6 +42,7 @@ class SyncChain {
       required Future<Uint8List> Function(Uint8List message) sign})
       : _kv = kv ?? null,
         _database = database,
+        _sign = sign,
         _authorizeService =
             AuthorizeService(sign: sign, httpp: httpp, refresh: refresh),
         _s3service = S3Service(bucket: s3Bucket);
@@ -102,6 +104,9 @@ class SyncChain {
                 onSuccess: onSuccess);
           });
     } else {
+      block.synced = DateTime.now();
+      block.signature = await _sign(
+          Uint8List.fromList(utf8.encode(json.encode(block.toJson()))));
       await _s3service.write(
           key:
               '${_hexFromBase64(_address)}/chain/${_hexFromBase64(base64.encode(hash))}.json',

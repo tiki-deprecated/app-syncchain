@@ -1,4 +1,4 @@
-name: sync_chain
+name: syncchain
 description: TIKI's local chain backup/sync (aka sync chain)
 version: 0.0.1
 homepage: https://mytiki.com
