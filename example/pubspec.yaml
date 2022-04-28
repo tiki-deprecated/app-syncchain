@@ -9,15 +9,8 @@ dependencies:
   flutter:
     sdk: flutter
   logging: ^1.0.1
-  syncchain:
+  tiki_syncchain:
     path: ../
-
-dependency_overrides:
-  sqflite:
-    git:
-      url: https://www.github.com/davidmartos96/sqflite_sqlcipher.git
-      path: sqflite
-      ref: fmdb_override
 
 dev_dependencies:
   flutter_test:
