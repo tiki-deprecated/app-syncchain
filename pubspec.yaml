@@ -12,11 +12,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  logging: ^1.0.1
+  crypto: ^3.0.1
+  http: ^0.13.4
+  logging: ^1.0.2
   sqflite_sqlcipher: ^2.1.0
   collection: ^1.15.0
   xml: ^5.3.1
-  uuid: 3.0.5
+  uuid: ^3.0.5
   httpp: ^0.0.4
   tiki_kv: ^0.1.1
 
