@@ -20,7 +20,7 @@ import 'syncchain_block.dart';
 
 export 'syncchain_block.dart';
 
-class SyncChain {
+class TikiSyncChain {
   static const String _isRegistered = 'SyncChain.isRegistered';
 
   late TikiKv? _kv;
@@ -33,7 +33,7 @@ class SyncChain {
   AuthorizeModelPolicyRsp? _policy;
   String? _address;
 
-  SyncChain(
+  TikiSyncChain(
       {Httpp? httpp,
       required Database database,
       TikiKv? kv,
@@ -47,7 +47,7 @@ class SyncChain {
             AuthorizeService(sign: sign, httpp: httpp, refresh: refresh),
         _s3service = S3Service(bucket: s3Bucket);
 
-  Future<SyncChain> init(
+  Future<TikiSyncChain> init(
       {String? address,
       String? accessToken,
       String? publicKey,
