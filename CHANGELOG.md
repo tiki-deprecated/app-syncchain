@@ -1,3 +1,6 @@
+# 0.0.3
+* fixed an issue with the tiki_syncchain_block naming
+
 # 0.0.2
 
 * change name to tiki_syncchain
