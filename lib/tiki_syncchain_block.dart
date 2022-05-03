@@ -6,21 +6,21 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-class SyncChainBlock {
+class TikiSyncChainBlock {
   Uint8List? contents;
   DateTime? created;
   Uint8List? previous;
   DateTime? synced;
   Uint8List? signature;
 
-  SyncChainBlock(
+  TikiSyncChainBlock(
       {this.contents,
       this.created,
       this.previous,
       this.synced,
       this.signature});
 
-  SyncChainBlock.fromJson(Map<String, dynamic>? map) {
+  TikiSyncChainBlock.fromJson(Map<String, dynamic>? map) {
     if (map != null) {
       if (map['contents'] != null)
         this.contents = base64.decode(map['contents']);
@@ -51,7 +51,7 @@ class SyncChainBlock {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SyncChainBlock &&
+      other is TikiSyncChainBlock &&
           runtimeType == other.runtimeType &&
           contents == other.contents &&
           created == other.created &&
