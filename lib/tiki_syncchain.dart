@@ -16,9 +16,7 @@ import 'src/db/db_model.dart';
 import 'src/db/db_service.dart';
 import 'src/s3/s3_model_list_ver.dart';
 import 'src/s3/s3_service.dart';
-import 'syncchain_block.dart';
-
-export 'syncchain_block.dart';
+import 'tiki_syncchain_block.dart';
 
 class TikiSyncChain {
   static const String _isRegistered = 'SyncChain.isRegistered';
@@ -88,8 +86,8 @@ class TikiSyncChain {
   void syncBlock(
       {String? accessToken,
       required Uint8List hash,
-      required SyncChainBlock block,
-      void Function(SyncChainBlock)? onSuccess,
+      required TikiSyncChainBlock block,
+      void Function(TikiSyncChainBlock)? onSuccess,
       void Function(Object)? onError}) async {
     if (_policy == null) {
       await _authorizeService.policy(
@@ -124,7 +122,7 @@ class TikiSyncChain {
   }
 
   void getBlocks(
-          {void Function(SyncChainBlock)? onSuccess,
+          {void Function(TikiSyncChainBlock)? onSuccess,
           void Function(Object)? onError}) =>
       _getKeys(onComplete: (versions) {
         versions.forEach((ver) {
@@ -132,7 +130,8 @@ class TikiSyncChain {
               key: ver.key!,
               version: ver.versionId,
               onSuccess: (json) {
-                if (onSuccess != null) onSuccess(SyncChainBlock.fromJson(json));
+                if (onSuccess != null)
+                  onSuccess(TikiSyncChainBlock.fromJson(json));
               },
               onError: onError);
         });
@@ -141,14 +140,14 @@ class TikiSyncChain {
   void getBlock(
           {required Uint8List hash,
           String? version,
-          void Function(SyncChainBlock)? onSuccess,
+          void Function(TikiSyncChainBlock)? onSuccess,
           void Function(Object)? onError}) =>
       _s3service.get(
           key:
               '${_hexFromBase64(_address)}/chain/${_hexFromBase64(base64.encode(hash))}',
           version: version,
           onSuccess: (json) {
-            if (onSuccess != null) onSuccess(SyncChainBlock.fromJson(json));
+            if (onSuccess != null) onSuccess(TikiSyncChainBlock.fromJson(json));
           },
           onError: onError);
 
