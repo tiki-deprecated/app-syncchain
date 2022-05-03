@@ -1,3 +1,8 @@
+# 0.0.2
+
+* change name to tiki_syncchain
+* publish to pub
+
 ## 0.0.1
 
 * Base functionality implemented. Write, Read, Verify
