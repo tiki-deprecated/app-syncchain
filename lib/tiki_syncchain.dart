@@ -51,7 +51,6 @@ class TikiSyncChain {
 
   Future<TikiSyncChain> init(
       {String? address,
-      String? accessToken,
       String? publicKey,
       void Function(Object)? onError}) async {
     if (_kv == null) _kv = await TikiKv(database: _database).init();

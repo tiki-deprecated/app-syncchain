@@ -41,16 +41,19 @@ class AuthorizeService {
           String? publicKeyB64,
           void Function()? onSuccess,
           void Function(Object)? onError}) =>
-      _repository.register(
-          client: _client,
-          accessToken: _accessToken(),
-          body: AuthorizeModelRegisterReq(
-              address: address, publicKey: publicKeyB64),
-          onSuccess: onSuccess,
-          onError: (err) {
-            _log.severe(err);
-            if (onError != null) onError(err);
-          });
+      _auth(
+          _accessToken(),
+          onError,
+          (String? token, Function(Object)? onError) => _repository.register(
+              client: _client,
+              accessToken: token,
+              body: AuthorizeModelRegisterReq(
+                  address: address, publicKey: publicKeyB64),
+              onSuccess: onSuccess,
+              onError: (err) {
+                _log.severe(err);
+                if (onError != null) onError(err);
+              }));
 
   Future<void> policy(
       {String? address,
@@ -61,17 +64,17 @@ class AuthorizeService {
     return _auth(
         _accessToken(),
         onError,
-        (token, onError) => _repository.policy(
+        (String? token, Function(Object)? onError) => _repository.policy(
             client: _client,
             body: AuthorizeModelPolicyReq(
                 address: address,
                 stringToSign: stringToSign,
                 signature: base64.encode(signature)),
-            accessToken: _accessToken(),
+            accessToken: token,
             onSuccess: onSuccess,
             onError: (err) {
               _log.severe(err);
-              onError(err);
+              if (onError != null) onError(err);
             }));
   }
 
