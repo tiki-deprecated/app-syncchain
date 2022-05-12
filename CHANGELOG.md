@@ -1,3 +1,7 @@
+# 0.0.6
+
+* handle key previously registered
+
 # 0.0.5
 
 * fixed bugs with token refresh for key registration

@@ -11,6 +11,7 @@ import 'package:sqflite_sqlcipher/sqflite.dart';
 import 'package:tiki_kv/tiki_kv.dart';
 
 import 'src/authorize/authorize_model_policy_rsp.dart';
+import 'src/authorize/authorize_model_rsp.dart';
 import 'src/authorize/authorize_service.dart';
 import 'src/db/db_model.dart';
 import 'src/db/db_service.dart';
@@ -69,7 +70,18 @@ class TikiSyncChain {
                 onSuccess: (rsp) => _policy = rsp);
           },
           onError: (err) {
-            if (onError != null)
+            if (err is AuthorizeModelRsp && err.code == 400) {
+              err.messages?.forEach((msg) async {
+                if (msg.message?.trim().toLowerCase() ==
+                    'address already registered') {
+                  await _kv!.upsert(_isRegistered, 'true');
+                  await _authorizeService.policy(
+                      address: address,
+                      onError: onError,
+                      onSuccess: (rsp) => _policy = rsp);
+                }
+              });
+            } else if (onError != null)
               onError(err);
             else
               throw StateError('Failed to init. Cannot register public key');
