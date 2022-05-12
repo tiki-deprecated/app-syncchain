@@ -1,3 +1,7 @@
+# 0.0.5
+
+* fixed bugs with token refresh for key registration
+
 # 0.0.4
 
 * use synchronous sign function for performance
