@@ -1,4 +1,10 @@
+# 0.0.4
+
+* use synchronous sign function for performance
+* use a function to get current access token
+
 # 0.0.3
+
 * fixed an issue with the tiki_syncchain_block naming
 
 # 0.0.2
