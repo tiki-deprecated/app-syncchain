@@ -21,27 +21,29 @@ class AuthorizeService {
 
   final HttppClient _client;
   final AuthorizeRepository _repository;
-  final Future<Uint8List> Function(Uint8List message) _sign;
+  final Uint8List Function(Uint8List message) _sign;
   final Future<void> Function(void Function(String?)? onSuccess)? _refresh;
+  final String? Function() _accessToken;
 
   AuthorizeService(
       {Httpp? httpp,
-      required Future<Uint8List> Function(Uint8List message) sign,
-      Future<void> Function(void Function(String?)? onSuccess)? refresh})
+      required Uint8List Function(Uint8List message) sign,
+      Future<void> Function(void Function(String?)? onSuccess)? refresh,
+      String? Function()? accessToken})
       : _repository = AuthorizeRepository(),
         _client = httpp == null ? Httpp().client() : httpp.client(),
         _sign = sign,
-        _refresh = refresh;
+        _refresh = refresh,
+        _accessToken = accessToken ?? (() => null);
 
   Future<void> register(
-          {String? accessToken,
-          String? address,
+          {String? address,
           String? publicKeyB64,
           void Function()? onSuccess,
           void Function(Object)? onError}) =>
       _repository.register(
           client: _client,
-          accessToken: accessToken,
+          accessToken: _accessToken(),
           body: AuthorizeModelRegisterReq(
               address: address, publicKey: publicKeyB64),
           onSuccess: onSuccess,
@@ -51,15 +53,13 @@ class AuthorizeService {
           });
 
   Future<void> policy(
-      {String? accessToken,
-      String? address,
+      {String? address,
       void Function(AuthorizeModelPolicyRsp)? onSuccess,
       void Function(Object)? onError}) async {
     String stringToSign = Uuid().v4().toString();
-    Uint8List signature =
-        await _sign(Uint8List.fromList(utf8.encode(stringToSign)));
+    Uint8List signature = _sign(Uint8List.fromList(utf8.encode(stringToSign)));
     return _auth(
-        accessToken,
+        _accessToken(),
         onError,
         (token, onError) => _repository.policy(
             client: _client,
@@ -67,7 +67,7 @@ class AuthorizeService {
                 address: address,
                 stringToSign: stringToSign,
                 signature: base64.encode(signature)),
-            accessToken: accessToken,
+            accessToken: _accessToken(),
             onSuccess: onSuccess,
             onError: (err) {
               _log.severe(err);

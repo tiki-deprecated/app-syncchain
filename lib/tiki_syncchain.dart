@@ -26,7 +26,7 @@ class TikiSyncChain {
   late final DBService _dbService;
   final Database _database;
   final S3Service _s3service;
-  final Future<Uint8List> Function(Uint8List message) _sign;
+  final Uint8List Function(Uint8List message) _sign;
 
   AuthorizeModelPolicyRsp? _policy;
   String? _address;
@@ -37,12 +37,16 @@ class TikiSyncChain {
       TikiKv? kv,
       String s3Bucket = 'tiki-sync-chain',
       Future<void> Function(void Function(String?)? onSuccess)? refresh,
-      required Future<Uint8List> Function(Uint8List message) sign})
+      String? Function()? accessToken,
+      required Uint8List Function(Uint8List message) sign})
       : _kv = kv ?? null,
         _database = database,
         _sign = sign,
-        _authorizeService =
-            AuthorizeService(sign: sign, httpp: httpp, refresh: refresh),
+        _authorizeService = AuthorizeService(
+            sign: sign,
+            httpp: httpp,
+            refresh: refresh,
+            accessToken: accessToken),
         _s3service = S3Service(bucket: s3Bucket);
 
   Future<TikiSyncChain> init(
@@ -56,13 +60,11 @@ class TikiSyncChain {
         await _kv!.read(_isRegistered) == 'true' ? true : false;
     if (!isRegistered) {
       await _authorizeService.register(
-          accessToken: accessToken,
           address: address,
           publicKeyB64: publicKey,
           onSuccess: () async {
             await _kv!.upsert(_isRegistered, 'true');
             await _authorizeService.policy(
-                accessToken: accessToken,
                 address: address,
                 onError: onError,
                 onSuccess: (rsp) => _policy = rsp);
@@ -75,7 +77,6 @@ class TikiSyncChain {
           });
     } else
       await _authorizeService.policy(
-          accessToken: accessToken,
           address: address,
           onError: onError,
           onSuccess: (rsp) => _policy = rsp);
@@ -91,7 +92,6 @@ class TikiSyncChain {
       void Function(Object)? onError}) async {
     if (_policy == null) {
       await _authorizeService.policy(
-          accessToken: accessToken,
           address: _address,
           onSuccess: (rsp) {
             _policy = rsp;
