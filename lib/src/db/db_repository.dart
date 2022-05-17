@@ -27,10 +27,10 @@ class DBRepository {
           'version_id TEXT NOT NULL, '
           'synced_epoch INTEGER NOT NULL);');
 
-  Future<DBModel> insert(DBModel sync, {Transaction? txn}) async {
-    await (txn ?? _database).insert(_table, sync.toMap());
-    _log.finest('inserted: #${sync.hash}');
-    return sync;
+  Future<DBModel> insert(DBModel model, {Transaction? txn}) async {
+    await (txn ?? _database).insert(_table, model.toMap());
+    _log.finest('inserted: #${model.hash}');
+    return model;
   }
 
   Future<DBModel?> get(Uint8List hash, {Transaction? txn}) async {
@@ -44,6 +44,26 @@ class DBRepository {
     } else {
       _log.finest('got $hash');
       return DBModel.fromMap(rows[0]);
+    }
+  }
+
+  Future<List<DBModel>> getAll(List<Uint8List> hashes,
+      {Transaction? txn}) async {
+    String q = '(' +
+        hashes
+            .map((hash) =>
+                'x\'${hash.map((e) => e.toRadixString(16).padLeft(2, "0")).join()}\'')
+            .join(',') +
+        ')';
+    List<Map<String, Object?>> rows = await (txn ?? _database)
+        .rawQuery('SELECT hash, version_id, synced_epoch '
+            'FROM $_table WHERE hash IN $q');
+    if (rows.isEmpty) {
+      _log.finest('no records found');
+      return List.empty();
+    } else {
+      _log.finest('got ${rows.length} blocks');
+      return rows.map((row) => DBModel.fromMap(row)).toList();
     }
   }
 }

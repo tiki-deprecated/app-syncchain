@@ -19,6 +19,8 @@ import 'src/s3/s3_model_list_ver.dart';
 import 'src/s3/s3_service.dart';
 import 'tiki_syncchain_block.dart';
 
+export 'src/db/db_model.dart';
+
 class TikiSyncChain {
   static const String _isRegistered = 'SyncChain.isRegistered';
 
@@ -131,6 +133,9 @@ class TikiSyncChain {
           });
     }
   }
+
+  Future<List<DBModel>> getState(List<Uint8List> hashes) =>
+      _dbService.get(hashes);
 
   void getBlocks(
           {void Function(TikiSyncChainBlock)? onSuccess,

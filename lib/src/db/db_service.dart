@@ -29,5 +29,6 @@ class DBService {
     });
   }
 
-  Future<DBModel?> get(Uint8List hash) => _repository.get(hash);
+  Future<List<DBModel>> get(List<Uint8List> hashes) =>
+      _repository.getAll(hashes);
 }
