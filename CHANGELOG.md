@@ -1,3 +1,8 @@
+# 0.0.7
+
+* method to get sync state
+* tests for db slice
+
 # 0.0.6
 
 * handle key previously registered
