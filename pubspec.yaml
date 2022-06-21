@@ -1,6 +1,6 @@
 name: tiki_syncchain
 description: TIKI's local chain backup/sync (aka sync chain)
-version: 0.0.7
+version: 0.0.8
 homepage: https://mytiki.com
 repository: https://github.com/tiki/syncchain
 issue_tracker: https://github.com/tiki/syncchain/issues
@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   amplitude_flutter: 3.10.0
-  crypto: ^3.0.1
+  crypto: ^3.0.2
   http: ^0.13.4
   logging: ^1.0.2
   sqflite_sqlcipher: ^2.1.1

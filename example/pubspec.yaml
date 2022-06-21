@@ -8,12 +8,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  logging: ^1.0.1
-  uuid: ^3.0.5
+  logging: ^1.0.2
+  uuid: ^3.0.6
   tiki_syncchain:
     path: ../
-  sqflite_sqlcipher: ^2.1.0
-  collection: ^1.15.0
+  sqflite_sqlcipher: ^2.1.1
+  collection: ^1.16.0
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +30,7 @@ dependency_overrides:
       url: https://www.github.com/davidmartos96/sqflite_sqlcipher.git
       path: sqflite
       ref: fmdb_override
+  crypto: ^3.0.1
 
 flutter:
   uses-material-design: true
