@@ -6,6 +6,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:httpp/httpp.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
 import 'package:tiki_kv/tiki_kv.dart';
@@ -33,6 +34,7 @@ class TikiSyncChain {
 
   AuthorizeModelPolicyRsp? _policy;
   String? _address;
+  Amplitude? amplitude;
 
   TikiSyncChain(
       {Httpp? httpp,
@@ -41,7 +43,8 @@ class TikiSyncChain {
       String s3Bucket = 'tiki-sync-chain',
       Future<void> Function(void Function(String?)? onSuccess)? refresh,
       String? Function()? accessToken,
-      required Uint8List Function(Uint8List message) sign})
+      required Uint8List Function(Uint8List message) sign,
+      this.amplitude})
       : _kv = kv ?? null,
         _database = database,
         _sign = sign,
@@ -125,6 +128,12 @@ class TikiSyncChain {
           object: utf8.encode(json.encode(block.toJson())),
           onError: onError,
           onSuccess: (ver) async {
+            // TODO bulk write
+            if(amplitude != null){
+              amplitude!.logEvent("SYNCED_NFT", eventProperties: {
+                "count" : 1
+              });
+            }
             await _dbService.write([
               DBModel(
                   hash: hash, versionId: ver.versionId, synced: block.synced)
