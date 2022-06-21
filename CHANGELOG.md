@@ -1,3 +1,8 @@
+# 0.0.8
+
+* add Amplitude
+* update dependencies
+
 # 0.0.7
 
 * method to get sync state
