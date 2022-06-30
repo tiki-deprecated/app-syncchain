@@ -45,4 +45,15 @@ class AuthorizeModelRsp<T> {
         'page': page?.toJson(),
         'messages': messages?.map((e) => e.toJson()).toList()
       };
+
+  @override
+  String toString() =>
+      '''AuthorizeModelRsp<${T.runtimeType}>
+status: $status,
+code: $code,
+data: ${data?.toJson()},
+page: ${page?.toJson()},
+messages: ${messages?.map((e) => e.toJson())}
+''';
+
 }

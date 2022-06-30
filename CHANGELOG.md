@@ -1,3 +1,7 @@
+# 0.0.9
+
+* Improve AuthorizeService error log
+
 # 0.0.8
 
 * add Amplitude
