@@ -129,12 +129,7 @@ class TikiSyncChain {
           onError: onError,
           onSuccess: (ver) async {
             // TODO bulk write
-            if(amplitude != null){
-              amplitude!.logEvent("SYNCED_NFT", eventProperties: {
-                "count" : 1
-              });
-            }
-            await _dbService.write([
+           await _dbService.write([
               DBModel(
                   hash: hash, versionId: ver.versionId, synced: block.synced)
             ]);

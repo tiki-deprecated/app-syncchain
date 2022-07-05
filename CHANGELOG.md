@@ -1,3 +1,7 @@
+# 0.0.10
+
+* Remove synced NFTs event
+
 # 0.0.9
 
 * Improve AuthorizeService error log
